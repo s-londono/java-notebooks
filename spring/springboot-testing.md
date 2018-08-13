@@ -47,6 +47,9 @@ public class SpringBootManuallyLoadedTest {
 
 * To combine the default test ApplicationContext configuration with some customizations, use @TestConfiguration. In contrast with a nested @Configuration, a nested @TestConfiguration does not prevent the SpringApplication from being used to load the Application Context of the test, but is added up to its configuration. That is, a nested @Configuration *extends* the default Application Context configuration of Spring Boot Tests.
 
+   According to the documentation, @TestConfiguration:
+   > "Can be used to define additional beans or customizations for a test. Unlike regular @Configuration classes the use of @TestConfiguration does not prevent auto-detection of @SpringBootConfiguration".
+
 ```java
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties={"cat.prop1=abc"})
