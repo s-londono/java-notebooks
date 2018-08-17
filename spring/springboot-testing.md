@@ -74,8 +74,8 @@ public class SpringBootAutoLoadedTest {
 }
 ```
 
-* It's also possible to specify an @ContextConfiguration on the test. In that case, the @SpringBootTest will not use the SpringApplication configuration to load the ApplicationContext.
-<!-- TODO: Validate this claim -->
+* It's also possible to specify an @ContextConfiguration on the test. In that case, the @SpringBootTest will not use the SpringApplication configuration to load the ApplicationContext.  This is equivalent to setting the classes attribute in @SpringBootTest to a class annotated with @Configuration (e.g. @SpringBootTest(classes={BotCoreService.class}))
+<!-- TODO: Validate this claim. See example at bot-core.BotPingCommandTest -->
 
 
 ## References
