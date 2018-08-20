@@ -10,6 +10,38 @@
 </dependency>
 ```
 
+## Simple Tests
+
+* The simplest of tests requires no annotations whatsoever on the class. Only on the test methods:
+
+```java
+public class TestSerialization {
+  private static Logger logger = LoggerFactory.getLogger(TestSerialization.class);
+  
+  ObjectMapper jsonMapper = new ObjectMapper();
+
+  @Test
+  public void testFallbackDeserialization() {  
+    String strFllbk = "{\"object\":\"page\",\"entry\":[]}";
+    
+    GetCallback cllbk = null;
+    
+    try {
+      cllbk = jsonMapper.readValue(strFllbk, GetCallback.class);
+    } 
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    Assert.assertNotNull(cllbk);
+  }
+
+  ...
+}
+```
+
+## Advanced Tests
+
 * Tests should be set to run with SpringRunner.class, otherwise annotations such as @SpringBootTest will be ignored. 
 
 * Spring Boot tests are annotated with @SpringBootTest, which replaces the @ContextConfiguration annotation used in the Standard Spring Test Framework. 
