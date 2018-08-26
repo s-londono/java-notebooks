@@ -109,9 +109,48 @@ public class SpringBootAutoLoadedTest {
 * It's also possible to specify an @ContextConfiguration on the test. In that case, the @SpringBootTest will not use the SpringApplication configuration to load the ApplicationContext.  This is equivalent to setting the classes attribute in @SpringBootTest to a class annotated with @Configuration (e.g. @SpringBootTest(classes={BotCoreService.class}))
 <!-- TODO: Validate this claim. See example at bot-core.BotPingCommandTest -->
 
+* The annotation @Import can be used in @TestConfiguration annotated classes to load additional  configurations in the ApplicationContext of the test.
+<!-- TODO: Add example -->
+
+* Use the @MockBean annotation to define mocks of beans to be used in the test. Is enabled by default in Spring Boot Tests (those that use annotations such as @SpringBootTest), otherwise can be enabled manually by adding the listener: @TestExecutionListeners(MockitoTestExecutionListener.class).
+<!-- TODO: Add examples, putting @MockBean on attributes, @Configuration classes and Test Classes -->
+
+```java
+@TestConfiguration
+@MockBean({KeyValueRepository.class, FbMessageBuilder.class})
+public static class TestAppCtxConfig {
+  @Bean
+  public BeansProvider beansProvider() {
+    return new TestBeansProvider();
+  }
+}
+```
+
+Which is equivalent to:
+
+```java
+@TestConfiguration
+public static class TestAppCtxConfig {
+  @Bean
+  public BeansProvider beansProvider() {
+    return new TestBeansProvider();
+  }
+
+  @MockBean
+  public KeyValueRepository keyValRepo;
+
+  @MockBean
+  public FbMessageBuilder fbMsgBuilder;
+}
+```
 
 ## References
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
 
 https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/testing.html#testing
+
+https://dzone.com/articles/spring-boot-unit-testing-and-mocking-with-mockito
+
+https://dzone.com/articles/unit-and-integration-tests-in-spring-boot-2
+
