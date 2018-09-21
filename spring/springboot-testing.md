@@ -143,6 +143,11 @@ public static class TestAppCtxConfig {
   public FbMessageBuilder fbMsgBuilder;
 }
 ```
+## Transactions
+https://docs.spring.io/spring/docs/5.0.9.RELEASE/spring-framework-reference/testing.html#testcontext-tx-enabling-transactions
+
+Annotating a test method with @Transactional causes the test to be run within a transaction that will, by default, be automatically rolled back after completion of the test. If a test class is annotated with @Transactional, each test method within that class hierarchy will be run within a transaction. Test methods that are not annotated with @Transactional (at the class or method level) will not be run within a transaction. Furthermore, tests that are annotated with @Transactional but have the propagation type set to NOT_SUPPORTED will not be run within a transaction.
+
 
 ## References
 
