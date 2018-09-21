@@ -18,3 +18,10 @@ lstListenerThreads.add(
     })
 );
 ```
+Be aware of generics and subtyping. Parameterized data structures containing a supertype do not automatically extend the same  data structure containing a subtype. In such cases, use wildcards and extends. E.g.:
+```java
+List<? extends Serializable> lst = new List<Date>();
+```
+Refer to: 
+https://docs.oracle.com/javase/tutorial/java/generics/subtyping.html
+
