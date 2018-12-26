@@ -152,6 +152,49 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-tes
 
 If your test is @Transactional, it rolls back the transaction at the end of each test method by default. However, as using this arrangement with either RANDOM_PORT or DEFINED_PORT implicitly provides a real servlet environment, the HTTP client and server run in separate threads and, thus, in separate transactions. Any transaction initiated on the server does not roll back in this case.
 
+## Override properties in tests
+
+The standard properties file that Spring Boot picks up automatically when running an application is called application.properties and resides in the src/main/resources folder.
+
+If we want to use different properties for tests, then we can override the properties file in the main folder by placing another file with the same name in src/test/resources.
+
+## Using a separate datasource for testing
+
+Another way to configure a separate DataSource for testing is by leveraging Spring Profiles to define a DataSource bean that is only available in a test profile.
+
+Define a DataSource bean for the test profile in a @Configuration class that will be loaded the test:
+
+```java
+@Configuration
+@EnableJpaRepositories(basePackages = {"org.labs.repository"})
+@EnableTransactionManagement
+public class H2TestProfileJPAConfig {
+ 
+    @Bean
+    @Profile("test")
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("sa");
+ 
+        return dataSource;
+    }
+}
+```
+
+Then, in the JUnit test class, use the test profile by means of the @ActiveProfiles annotation:
+
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {Application.class, H2TestProfileJPAConfig.class})
+@ActiveProfiles("test")
+public class SpringBootProfileIntegrationTest {
+    // ...
+}
+```
+
 ## References
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
