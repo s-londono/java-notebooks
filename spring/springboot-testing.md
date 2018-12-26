@@ -195,6 +195,22 @@ public class SpringBootProfileIntegrationTest {
 }
 ```
 
+# Overriding a specific property through the SpringBootTest annotation
+
+To load properties from the resources file and to override the values of some of them, use the properties attribute of @SpringBootTest:
+
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(
+  webEnvironment=SpringBootTest.WebEnvironment.DEFINED_PORT,
+  classes={BotBackOfficeMainService.class, ChatHistoryTest.ChatCenterStoreTestConfig.class},
+  properties={"agent-chat.map-closed-chats-prefix=TEST_map_closed_chats"})
+@ActiveProfiles({"local"})
+public class ChatHistoryTest {
+  // ...
+}
+```
+
 ## References
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
