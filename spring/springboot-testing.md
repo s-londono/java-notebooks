@@ -48,7 +48,7 @@ public class TestSerialization {
 
 * By default, @SpringBootTest looks for a SpringAplication class in the project (i.e. a @SpringBootConfiguration) and uses it to load the ApplicationContext. This is the case when no @ContextConfiguration is specified and no @Configuration classes are nested in the test. 
 
-   Note that @ActiveProfiles can be used to define the profile to run the test with and the  properties attribute of @SpringBootTest can override property values.
+   Note that @ActiveProfiles can be used to define the profile to run the test with. The properties attribute of @SpringBootTest can be used to override the values of specific properties.
 
 ```java
 @RunWith(SpringRunner.class)
@@ -151,6 +151,14 @@ Annotating a test method with @Transactional causes the test to be run within a 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications
 
 If your test is @Transactional, it rolls back the transaction at the end of each test method by default. However, as using this arrangement with either RANDOM_PORT or DEFINED_PORT implicitly provides a real servlet environment, the HTTP client and server run in separate threads and, thus, in separate transactions. Any transaction initiated on the server does not roll back in this case.
+
+In case the test transaction should be committed in a Transactional method or class, add the following as first line of the method:
+
+https://docs.spring.io/spring/docs/4.3.11.RELEASE/spring-framework-reference/htmlsingle/#testcontext-tx
+
+```java
+TestTransaction.flagForCommit();
+```
 
 ## Override properties in tests
 
