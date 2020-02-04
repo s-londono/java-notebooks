@@ -219,6 +219,51 @@ public class ChatHistoryTest {
 }
 ```
 
+# Mocking beans
+
+Beans can be mocked using the @MockBean annotation. We can specify test logic in the @Before method of the test. This is very useful for example, to simulate access to datasources via Repo Beans. 
+
+Mocks can be registered by type or by bean name. Any existing single bean of the same type defined in the context will be replaced by the mock, if no existing bean is defined a new one will be added. When @MockBean is used on a field, as well as being registered in the application context, the mock will also be injected into the field.
+
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles({"local"})
+public class StandardServiceServiceImplTest {
+  @MockBean
+  private StandardServicesRepository standardServiceRepo;
+  
+  @Autowired
+  private StandardServiceService stdServiceSrvc;
+  
+    @Before
+  public void setup() {
+
+    // Scenario 1: Bot 10. Has 3 BotAccounts 100, 101, 102. StandardServices enabled by BotAccount
+    Mockito
+      .when(standardServiceRepo.listStandardServicesByBotAccountId(100))
+      .thenReturn(Collections.singletonList(new StandardService()));
+
+    Mockito
+      .when(standardServiceRepo.listStandardServicesByBotAccountId(101))
+      .thenReturn(Collections.emptyList());
+  }
+  
+  @Test
+  public void testListStandardServicesForBotSession() {
+
+    final int rootBotId = 1;
+    final int bizProcessBotId = 11;
+    final int botAccountId = 100;
+
+    final List<StandardService> resStdServices =
+      stdServiceSrvc.listStandardServicesForBotSession(rootBotId, botAccountId, bizProcessBotId);
+
+    Assert.notNull(resStdServices, "Retrieved list of StandardServices is null");
+  }
+}
+```
+
 ## References
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
@@ -228,4 +273,6 @@ https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/test
 https://dzone.com/articles/spring-boot-unit-testing-and-mocking-with-mockito
 
 https://dzone.com/articles/unit-and-integration-tests-in-spring-boot-2
+
+https://www.baeldung.com/mockito-mock-methods
 
