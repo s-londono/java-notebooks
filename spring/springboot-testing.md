@@ -264,6 +264,23 @@ public class StandardServiceServiceImplTest {
 }
 ```
 
+-- TODO: Add documentation about Mockito -------------------------------------------------------------------------------
+https://www.baeldung.com/java-spring-mockito-mock-mockbean
+
+"We can use the @MockBean to add mock objects to the Spring application context. The mock will replace any existing 
+bean of the same type in the application context."
+
+"If no bean of the same type is defined, a new one will be added. This annotation is useful in integration tests 
+where a particular bean – for example, an external service – needs to be mocked."
+
+Document what has been done at: 
+botstandardservices com.vertical.bot.stdservices.bizlogic.state.ProcessSelectionTest
+botbackoffice com.vertical.bot.backoffice.service.impl.StandardServiceServiceImplTest
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 ## References
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
